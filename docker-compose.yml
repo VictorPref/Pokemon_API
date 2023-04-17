@@ -1,0 +1,24 @@
+version: '3'
+services:
+  localsqlserver:
+    image: 'mcr.microsoft.com/mssql/server:2017-latest'
+    hostname: 'localsqlserver'
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SuperP4ssw0rd!
+      - MSSQL_PID=Developer
+  sqlpad:
+    image: 'sqlpad/sqlpad:latest'
+    hostname: 'sqlpad'
+    ports:
+      - '3000:3000'
+    environment:
+      SQLPAD_ADMIN: 'admin@sqlpad.com'
+      SQLPAD_ADMIN_PASSWORD: 'admin'
+    volumes:
+      - sqlpad-volume:/var/lib/sqlpad
+
+volumes:
+  sqlpad-volume:

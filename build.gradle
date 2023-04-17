@@ -1,0 +1,108 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springdoc.openapi-gradle-plugin' version '1.5.0'
+}
+
+group = 'com.pokemon'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.9.1'
+    junitPlatformVersion = '1.9.1'
+    flywayVersion = '9.7.0'
+    openApi = '1.6.12'
+    openCsv = '5.7.1'
+    sqlServer = '9.2.1.jre8'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation "com.opencsv:opencsv:${openCsv}"
+
+    implementation "org.springdoc:springdoc-openapi-ui:${openApi}"
+    implementation "org.springdoc:springdoc-openapi-data-rest:${openApi}"
+
+    implementation 'com.h2database:h2:2.1.210'
+    runtimeOnly group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: "${sqlServer}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+
+    implementation "org.flywaydb:flyway-core:${flywayVersion}"
+    implementation "org.flywaydb:flyway-sqlserver:${flywayVersion}"
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+jacocoTestReport {
+
+    dependsOn test
+
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
+
+}
+
+jacocoTestCoverageVerification {
+
+    violationRules {
+        rule {
+            element = 'CLASS'
+            excludes = [
+                    'com.pokemon.api.configuration.*',
+                    'com.pokemon.api.data.entities.*'
+            ]
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.800
+            }
+        }
+    }
+}
+
+check.dependsOn(jacocoTestCoverageVerification)
+
+
+openApi {
+    apiDocsUrl.set("http://localhost:8080/v3/api-docs")
+    outputDir.set(file("swagger"))
+    outputFileName.set("swagger.json")
+}
