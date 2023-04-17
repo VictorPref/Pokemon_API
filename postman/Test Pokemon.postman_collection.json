@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c454f6f4-e49b-4654-9d9a-535ed3c33afd",
+		"_postman_id": "9a6c159e-db5f-4ca5-bff0-a4eb2534751f",
 		"name": "Test Pokemon",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -89,7 +89,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\r\n  \"name\": \"Test Update\",\r\n  \"type_1\": \"Grass\",\r\n  \"type_2\": \"Fire\",\r\n  \"total\": 0,\r\n  \"hp\": 0,\r\n  \"attack\": 0,\r\n  \"defense\": 0,\r\n  \"sp_atk\": 0,\r\n  \"sp_def\": 0,\r\n  \"speed\": 0,\r\n  \"generation\": 0,\r\n  \"legendary\": true\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -97,7 +97,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/pokemons/1",
+					"raw": "http://localhost:8080/pokemons/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -105,7 +105,7 @@
 					"port": "8080",
 					"path": [
 						"pokemons",
-						"1"
+						"3"
 					]
 				}
 			},
@@ -147,7 +147,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"legendary\": false\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
